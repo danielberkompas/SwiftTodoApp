@@ -15,77 +15,61 @@ protocol CreateTaskDelegate {
 class TaskCreateViewController: UIViewController {
     var delegate: CreateTaskDelegate?
     
-    // field for name
-    let nameFieldRect = CGRectMake(10, 20, 300, 44)
-    let nameField: UITextField = {
+    @lazy var nameField: UITextField = {
         let textField = UITextField()
+        textField.frame = CGRectMake(10, 20, 300, 44)
+        textField.placeholder = "Enter name of task here"
         return textField
     }()
     
-    // field for description
-    let descriptionFieldRect = CGRectMake(10, 84, 300, 44)
-    let descriptionField: UITextField = {
-        let descriptionField = UITextField()
-        return descriptionField
+    @lazy var descriptionField: UITextField = {
+        let textField = UITextField()
+        textField.frame = CGRectMake(10, 84, 300, 44)
+        textField.placeholder = "Enter very brief description of the task"
+        return textField
     }()
     
-    // exit button
-    let exitButtonRect = CGRectMake(15, 140, 140, 44)
-    let exitButton: UIButton = {
+    @lazy var exitButton: UIButton = {
         let button = UIButton()
+        button.frame = CGRectMake(15, 140, 140, 44)
+        button.backgroundColor = UIColor.blueColor()
+        button.setTitle("Exit", forState: .Normal)
+        button.addTarget(self, action: "exitAction", forControlEvents: .TouchUpInside)
         return button
     }()
     
-    // submit button
-    let submitButtonRect = CGRectMake(165, 140, 140, 44)
-    let submitButton: UIButton = {
+    @lazy var submitButton: UIButton = {
         let button = UIButton()
+        button.frame = CGRectMake(165, 140, 140, 44)
+        button.backgroundColor = UIColor.blueColor()
+        button.setTitle("Submit", forState: .Normal)
+        button.addTarget(self, action: "submitAction", forControlEvents: .TouchUpInside)
         return button
     }()
     
     override func viewDidLoad() {
-        self.view.backgroundColor = UIColor.whiteColor()
-        
-        nameField.frame = nameFieldRect
-        nameField.placeholder = "Enter name of task here"
-        descriptionField.frame = descriptionFieldRect
-        self.view.addSubview(nameField)
-        
-        descriptionField.frame = descriptionFieldRect
-        descriptionField.placeholder = "enter very brief description of the task"
-        self.view.addSubview(descriptionField)
-        
-        exitButton.frame = exitButtonRect
-        exitButton.backgroundColor = UIColor.blueColor()
-        exitButton.setTitle("Exit", forState: .Normal)
-        exitButton.addTarget(self, action: "exitAction", forControlEvents: .TouchUpInside)
-        self.view.addSubview(exitButton)
-        
-        submitButton.frame = submitButtonRect
-        submitButton.backgroundColor = UIColor.blueColor()
-        submitButton.setTitle("Submit", forState: .Normal)
-        submitButton.addTarget(self, action: "submitAction", forControlEvents: .TouchUpInside)
-        self.view.addSubview(submitButton)
+        view.backgroundColor = UIColor.whiteColor()
+        view.addSubview(nameField)
+        view.addSubview(descriptionField)
+        view.addSubview(exitButton)
+        view.addSubview(submitButton)
     }
     
-    
-    // MARK button methods 
-    
+    // MARK button methods
     func submitAction() {
-        // retrieve the fvalues from the fields
-        // pass as a dictionary to the view controller
         let nameTask = nameField.text
         let descriptionTask = descriptionField.text
         
         // send with delegate
         delegate?.taskCreated(["name": nameTask, "description": descriptionTask])
         
+        // clear out the text field
         nameField.text = nil
         descriptionField.text = nil
-        exitAction() // I added this
+        exitAction()
     }
     
     func exitAction() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }

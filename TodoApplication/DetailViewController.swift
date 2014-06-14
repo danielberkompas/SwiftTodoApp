@@ -18,60 +18,44 @@ class DetailViewController: UIViewController {
     var indexPath: Int = 0
     var delegate: CompletedDelegate?
     
-    // name label
-    let nameLabelRect = CGRectMake(10, 44, 300, 44)
-    let nameLabel: UILabel = {
+    @lazy var nameLabel: UILabel = {
         let label = UILabel()
+        label.frame = CGRectMake(10, 44, 300, 44)
+        label.text = self.nameVar
         return label
     }()
     
-    // description label
-    let descriptionRect = CGRectMake(10, 100, 300, 44)
-    let descriptionLabel: UILabel = {
+    @lazy var descriptionLabel: UILabel = {
         let label = UILabel()
+        label.frame = CGRectMake(10, 100, 300, 44)
+        label.text = self.descriptionVar
         return label
     }()
     
-    // task completed button
-    let completedRect = CGRectMake(15, 160, 140, 44)
-    let completedButton: UIButton = {
+    @lazy var completedButton: UIButton = {
         let button = UIButton()
+        button.frame = CGRectMake(15, 160, 140, 44)
+        button.backgroundColor = UIColor.blueColor()
+        button.setTitle("Mark Complete", forState: .Normal)
+        button.addTarget(self, action: "completeAction", forControlEvents: .TouchUpInside)
         return button
     }()
     
-    // exit button
-    let exitRect = CGRectMake(165, 160, 140, 44)
-    let exitButton: UIButton = {
+    @lazy var exitButton: UIButton = {
         let button = UIButton()
+        button.frame = CGRectMake(165, 160, 140, 44)
+        button.backgroundColor = UIColor.blueColor()
+        button.setTitle("Exit", forState: .Normal)
+        button.addTarget(self, action: "exitAction", forControlEvents: .TouchUpInside)
         return button
     }()
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor.whiteColor()
-        
-        nameLabel.frame = nameLabelRect
-        nameLabel.text = nameVar
-        self.view.addSubview(nameLabel)
-        
-        descriptionLabel.frame = descriptionRect
-        descriptionLabel.text = descriptionVar
-        self.view.addSubview(descriptionLabel)
-        
-        completedButton.frame = completedRect
-        completedButton.backgroundColor = UIColor.blueColor()
-        completedButton.setTitle("Mark Complete", forState: .Normal)
-        completedButton.addTarget(self, action: "completeAction", forControlEvents: .TouchUpInside)
-        self.view.addSubview(completedButton)
-        
-        exitButton.frame = exitRect
-        exitButton.backgroundColor = UIColor.blueColor()
-        exitButton.setTitle("Exit", forState: .Normal)
-        exitButton.addTarget(self, action: "exitAction", forControlEvents: .TouchUpInside)
-        self.view.addSubview(exitButton)
-        
-        println(nameVar)
-        println(descriptionVar)
-        println(indexPath)
+        view.addSubview(nameLabel)
+        view.addSubview(descriptionLabel)
+        view.addSubview(completedButton)
+        view.addSubview(exitButton)
     }
     
     func completeAction() {

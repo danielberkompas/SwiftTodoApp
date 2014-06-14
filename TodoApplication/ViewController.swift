@@ -12,17 +12,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var dataSource: Dictionary<String, String>[][] = [[], []]
     
-    let tableViewRect = CGRectMake(20, 64, 280, UIScreen.mainScreen().bounds.size.height - 84)
-    
-    let tableView: UITableView = {
+    @lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.frame = CGRectMake(20, 64, 280, UIScreen.mainScreen().bounds.size.height - 84)
+        tableView.backgroundColor = UIColor.blueColor()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         return tableView
     }()
     
-    let createButtonRect = CGRectMake(UIScreen.mainScreen().bounds.size.width - 84, 10, 44, 44)
-    
-    let createButton: UIButton = {
+    @lazy var createButton: UIButton = {
         let button = UIButton()
+        button.frame = CGRectMake(UIScreen.mainScreen().bounds.size.width - 84, 10, 44, 44)
+        button.backgroundColor = UIColor.orangeColor()
+        button.setTitle("+", forState: .Normal)
+        button.addTarget(self, action: "createTask", forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
     
@@ -38,20 +43,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
-        tableView.frame = tableViewRect
-        tableView.backgroundColor = UIColor.blueColor()
         self.view.addSubview(tableView)
-        
-        createButton.frame = createButtonRect
-        createButton.backgroundColor = UIColor.orangeColor()
-        createButton.setTitle("+", forState: .Normal)
-        createButton.addTarget(self, action: "createTask", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(createButton)
     }
 
@@ -115,19 +107,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK create task delegate
     
     func taskCreated(task: Dictionary<String, String>) {
-        println("in task created delegate of ViewController")
-        println(task)
-        
-        // Add task to array at index 0
         dataSource[0] += task
-        
-        // update tableView
         tableView.reloadData()
     }
     
     // MARK completed delegate method
     func markComplete(indexPath: Int) {
-        println("View controller in mark complete delegate")
         let currentTask = dataSource[0][indexPath]
         dataSource[0].removeAtIndex(indexPath)
         dataSource[1] += currentTask
