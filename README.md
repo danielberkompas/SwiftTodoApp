@@ -3,6 +3,6 @@ Built based on the tutorial from [SwiftDevs](https://www.youtube.com/watch?v=xN7
 
 I intend to clean it up a bit later.
 
-- [ ] Use lazy var instantiation
+- [x] Use lazy var instantiation
 - [ ] Better styles
 - [ ] Convert to AutoLayout using InterfaceBuilder?
